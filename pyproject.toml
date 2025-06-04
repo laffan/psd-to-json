@@ -3,7 +3,7 @@ requires = ["setuptools>=61.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "psd-to-json-nlfn"
+name = "psd-to-json"
 version = "0.0.1"
 authors = [
   { name="Nate Laffan", email="nate.laffan@gmail.com" },
@@ -30,7 +30,7 @@ classifiers = [
 ]
 
 [project.scripts]
-psd-to-json = "psd_to_json_package_nlfn.main:main"
+psd-to-json = "psd_to_json_package.main:main"
 
 [project.urls]
 Homepage = "https://github.com/laffan/psd-to-json"
