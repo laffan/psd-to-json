@@ -1,10 +1,14 @@
 # PSD to JSON
 
-This tool outputs layers of a psd as optimized assets with manifest
+This tool outputs the layers of a psd as optimized assets with manifest.
 
-Note for Windows users : The generator has only been tested using WSL (Windows Subsystem for Linux). If you don't already use WSL you can [learn more here](https://learn.microsoft.com/en-us/windows/wsl/install).
+To install: `pip install psd-to-json`
 
-## Requirements
+To use: `psd-to-json` (requires a [configuration file](#configuration) and for the PSD to use proper [layer naming](#layer-naming).)
+
+You can also run `psd-to-json --watch` to force generateOnSave to be true for that session.
+
+## Additional Requirements
 
 **NOTE: [pngquant](https://pngquant.org/) is required for psd-to-json to run but is not part of the pip installation.**
 
@@ -22,44 +26,38 @@ Or, if you're using Linux or Windows/WSL:
 sudo apt install pngquant -y
 ```
 
+Note for Windows users : psd-to-json has only been tested using WSL (Windows Subsystem for Linux). If you don't already use WSL you can [learn more here](https://learn.microsoft.com/en-us/windows/wsl/install).
+
+
+
 ## Configuration
 
 psd-to-json will ook for a  `psd-to-json.config` file in the directory where it is run. This is a JSON document that should have the following fields:
 
-```js
-[{
-  // output_dir : Where the generated files go.
-  "output_dir": "path/to/output/", 
-  // psd_files : An array of psd files to be processed each time you run the script.
-  "psd_files": [ 
-    "path/to/your.psd",
-  ],
-  // tile_slice_size : For layers in the "tiles" group, how big should the slices be?
-  "tile_slice_size": 500, 
-
-  // tile_scaled_versions : Resize tiles to any number of sizes.
-  "tile_scaled_versions": [250], 
-
-  // generateOnSave : Runs generator when any one of the PSDs is saved.
-  "generateOnSave": true, 
-
-  // pngQualityRange : Control PNG compression. (All PNGs are optimzied)
-  "pngQualityRange": {  
-    "low": 45,  // lowest possible quality.
-    "high": 65  // highest possible quality
+```json
+{
+  "output_dir": "tests/output",
+  "psd_files": ["tests/demo.psd"],
+  "tile_slice_size": 500,
+  "tile_scaled_versions": [100],
+  "generateOnSave": false,
+  "pngQualityRange": {
+    "low": 85,
+    "high": 90
   },
-  // jpgQuality : Quality of compressed JPG.
-  "jpgQuality": 80 
-}]
+  "jpgQuality": 80
+}
 ```
 
-### Running the script
+- output_dir: directory to save output
+- psd_files: array of psds to process (a folder is created for each)
+- tile_slice_size: size of tiles in tile layers,
+- tile_scaled_versions: An array of scaled duplicates of the tiles (for minimaps, etc)
+- generateOnSave: automatically run on save
+- pngQualityRange: min/max of PNG compression
+- jpgQuality: jpg output quality
 
-Once you have everything as you like it, just run `psd-to-json`.
 
-If you have `generateOnSave` set to true, the script will stay active, and saving any PSD in your `psd_files` array will trigger the script. 
-
-You can also run `psd-to-json --watch` to force generateOnSave to be true for that session.  
 
 ## Layer Naming
 
