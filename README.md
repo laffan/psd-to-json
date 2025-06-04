@@ -26,8 +26,8 @@ sudo apt install pngquant -y
 
 psd-to-json will ook for a  `psd-to-json.config` file in the directory where it is run. This is a JSON document that should have the following fields:
 
-```json
-{
+```js
+[{
   // output_dir : Where the generated files go.
   "output_dir": "path/to/output/", 
   // psd_files : An array of psd files to be processed each time you run the script.
@@ -50,7 +50,7 @@ psd-to-json will ook for a  `psd-to-json.config` file in the directory where it 
   },
   // jpgQuality : Quality of compressed JPG.
   "jpgQuality": 80 
-}
+}]
 ```
 
 ### Running the script
