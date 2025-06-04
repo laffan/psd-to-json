@@ -33,9 +33,9 @@ classifiers = [
 psd-to-json = "psd_to_json_package_nlfn.main:main"
 
 [project.urls]
-Homepage = "https://github.com/natelaffan/psd-to-json"
-Issues = "https://github.com/natelaffan/psd-to-json/issues"
-Repository = "https://github.com/natelaffan/psd-to-json"
+Homepage = "https://github.com/laffan/psd-to-json"
+Issues = "https://github.com/laffan/psd-to-json/issues"
+Repository = "https://github.com/laffan/psd-to-json"
 
 [tool.setuptools.packages.find]
 where = ["src"]
