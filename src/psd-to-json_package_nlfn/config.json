@@ -1,0 +1,21 @@
+{
+  "output_dir": "../examples/introduction-loadmultiple/site/public/assets",
+  "psd_files": [
+    "../examples/introduction-loadmultiple/psds/01.psd",
+    "../examples/introduction-loadmultiple/psds/02.psd",
+    "../examples/introduction-loadmultiple/psds/03.psd",
+    "../examples/introduction-loadmultiple/psds/04.psd"
+  ],
+  "tmp_output_dir": "../examples/callibration/site/public/assets",
+  "tmp_psd_files": [
+    "../examples/callibration/callibration.psd"
+  ],
+  "tile_slice_size": 500,
+  "tile_scaled_versions": [100],
+  "generateOnSave": false,
+  "pngQualityRange": {
+    "low": 85,
+    "high": 90
+  },
+  "jpgQuality": 80
+}

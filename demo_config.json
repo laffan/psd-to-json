@@ -1,0 +1,12 @@
+{
+  "output_dir": "tests/output",
+  "psd_files": ["tests/demo.psd"],
+  "tile_slice_size": 500,
+  "tile_scaled_versions": [100],
+  "generateOnSave": false,
+  "pngQualityRange": {
+    "low": 85,
+    "high": 90
+  },
+  "jpgQuality": 80
+}
