@@ -2,25 +2,15 @@
 
 This tool outputs layers of a psd as optimized assets with manifest
 
-**Note for Windows users : The generator has only been tested using WSL (Windows Subsystem for Linux). If you don't already use WSL you can [learn more here](https://learn.microsoft.com/en-us/windows/wsl/install).**
+Note for Windows users : The generator has only been tested using WSL (Windows Subsystem for Linux). If you don't already use WSL you can [learn more here](https://learn.microsoft.com/en-us/windows/wsl/install).
 
-## Installation
+## Requirements
 
-For the generator to work, you'll need to install some python libraries and [pngquant](https://pngquant.org).
+**NOTE: [pngquant](https://pngquant.org/) is required for psd-to-json to run but is not part of the pip installation.**
 
-If you have `pip` installed, you can use this command for the python libraries:
+To install pngquant: 
 
-```bash
-pip install psd-tools Pillow pypng
-```
-
-This will install the following: 
-
-- [psd-tools](https://github.com/psd-tools/psd-tools)
-- [Pillow (PIL)](https://pillow.readthedocs.io/en/stable/)
-- [pypng](https://pypi.org/project/pypng/)
-
-For pngquant, macOS users who use `brew`, can do the following: 
+macOS users who use `brew`, can do the following: 
 
 ```bash
 brew install pngquant
@@ -34,15 +24,15 @@ sudo apt install pngquant -y
 
 ## Configuration
 
-The `config.json` file controls the behavior of the tool. Here's what you'll see, along with with explanations:
+psd-to-json will ook for a  `psd-to-json.config` file in the directory where it is run. This is a JSON document that should have the following fields:
 
-```js
+```json
 {
   // output_dir : Where the generated files go.
-  "output_dir": "../examples/introduction/site/public/assets/", 
+  "output_dir": "path/to/output/", 
   // psd_files : An array of psd files to be processed each time you run the script.
   "psd_files": [ 
-    "../examples/introduction/introduction.psd",
+    "path/to/your.psd",
   ],
   // tile_slice_size : For layers in the "tiles" group, how big should the slices be?
   "tile_slice_size": 500, 
@@ -65,16 +55,11 @@ The `config.json` file controls the behavior of the tool. Here's what you'll see
 
 ### Running the script
 
-Once you have everything as you like it, just run
+Once you have everything as you like it, just run `psd-to-json`.
 
-   ```bash
-   # Mac/WSL users will likely execute using python3 instead
-   python main.py 
-   ```
+If you have `generateOnSave` set to true, the script will stay active, and saving any PSD in your `psd_files` array will trigger the script. 
 
-#### Generate on save
-
-If you have `generateOnSave` set to true, the script will stay active, and saving any PSD in your `psd_files` array will trigger the script. Ideally you should have the same thing turned on for frontend development.
+You can also run `psd-to-json --watch` to force generateOnSave to be true for that session.  
 
 ## Layer Naming
 
