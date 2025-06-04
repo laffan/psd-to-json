@@ -2,7 +2,7 @@
 
 import png, logging
 
-from src.helpers.texture_packer.packer import PackingRectangle
+from .packer import PackingRectangle
 
 # Creates an image rectangle from a PNG file
 class PngRect(PackingRectangle):

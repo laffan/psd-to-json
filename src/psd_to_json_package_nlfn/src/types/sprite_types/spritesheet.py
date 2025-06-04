@@ -2,9 +2,9 @@ import os
 import math
 from PIL import Image
 from psd_tools.api.layers import Layer, Group
-from src.types.sprite import Sprite
-from src.helpers.optimize_pngs import optimize_pngs
-from src.helpers.parsers import parse_attributes
+from ..sprite import Sprite
+from ...helpers.optimize_pngs import optimize_pngs
+from ...helpers.parsers import parse_attributes
 
 class SpritesheetSprite(Sprite):
     def __init__(self, layer_info, layer, config, output_dir, psd_name):

@@ -1,7 +1,7 @@
 import os
 from PIL import Image
-from src.types.sprite import Sprite
-from src.helpers.optimize_pngs import optimize_pngs
+from ..sprite import Sprite
+from ...helpers.optimize_pngs import optimize_pngs
 
 class BasicSprite(Sprite):
     def process(self):

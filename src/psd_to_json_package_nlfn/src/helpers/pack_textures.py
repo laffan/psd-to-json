@@ -1,5 +1,5 @@
 from PIL import Image
-from src.helpers.texture_packer.packer import Packer, PackingRectangle
+from .texture_packer.packer import Packer, PackingRectangle
 
 class AtlasRect(PackingRectangle):
     def __init__(self, image, name, original_left, original_top, properties):

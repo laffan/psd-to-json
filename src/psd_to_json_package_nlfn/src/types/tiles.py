@@ -1,7 +1,7 @@
 import os
 from PIL import Image
-from src.helpers.parsers import parse_attributes
-from src.helpers.optimize_pngs import optimize_pngs
+from ..helpers.parsers import parse_attributes
+from ..helpers.optimize_pngs import optimize_pngs
 
 class Tiles:
     def __init__(self, config, output_dir):

@@ -1,7 +1,7 @@
 import os
 from PIL import Image
 from psd_tools import PSDImage
-from src.helpers.optimize_pngs import optimize_pngs
+from ..helpers.optimize_pngs import optimize_pngs
 
 class Sprite:
     def __init__(self, layer_info, layer, config, output_dir, psd_name):
@@ -32,10 +32,10 @@ class Sprite:
         """
         Factory method to create the appropriate sprite subclass.
         """
-        from src.types.sprite_types.basic import BasicSprite
-        from src.types.sprite_types.spritesheet import SpritesheetSprite
-        from src.types.sprite_types.animation import AnimationSprite
-        from src.types.sprite_types.atlas import AtlasSprite
+        from .sprite_types.basic import BasicSprite
+        from .sprite_types.spritesheet import SpritesheetSprite
+        from .sprite_types.animation import AnimationSprite
+        from .sprite_types.atlas import AtlasSprite
 
         sprite_type = layer_info.get('type', 'basic')
         

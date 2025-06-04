@@ -1,8 +1,8 @@
 import os
 from PIL import Image
 from psd_tools.api.layers import Layer, Group
-from src.types.sprite import Sprite
-from src.helpers.optimize_pngs import optimize_pngs
+from ..sprite import Sprite
+from ...helpers.optimize_pngs import optimize_pngs
 
 class AtlasSprite(Sprite):
     def __init__(self, layer_info, layer, config, output_dir, psd_name):

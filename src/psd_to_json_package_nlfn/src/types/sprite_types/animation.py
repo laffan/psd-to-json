@@ -1,8 +1,8 @@
 import os
 import math
 from PIL import Image
-from src.types.sprite import Sprite
-from src.helpers.optimize_pngs import optimize_pngs
+from ..sprite import Sprite
+from ...helpers.optimize_pngs import optimize_pngs
 
 class AnimationSprite(Sprite):
     def __init__(self, *args, **kwargs):

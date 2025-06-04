@@ -1,11 +1,11 @@
 from psd_tools import PSDImage
 from psd_tools.constants import BlendMode
 import os
-from src.helpers.parsers import parse_attributes
-from src.types.point import process_points
-from src.types.zone import process_zones
-from src.types.sprite import Sprite
-from src.types.tiles import Tiles
+from ..helpers.parsers import parse_attributes
+from ..types.point import process_points
+from ..types.zone import process_zones
+from ..types.sprite import Sprite
+from ..types.tiles import Tiles
 
 class PSDProcessor:
     def __init__(self, config):

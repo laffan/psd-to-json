@@ -1,5 +1,9 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
 [project]
-name = "psd-to-json_nlfn"
+name = "psd-to-json-nlfn"
 version = "0.0.1"
 authors = [
   { name="Nate Laffan", email="nate.laffan@gmail.com" },
@@ -7,13 +11,31 @@ authors = [
 description = "Output layers of a psd as optimized assets with manifest."
 readme = "README.md"
 requires-python = ">=3.9"
+dependencies = [
+    "psd-tools",
+    "Pillow",
+    "pypng"
+]
 classifiers = [
     "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10", 
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Topic :: Multimedia :: Graphics :: Graphics Conversion",
 ]
-license = "MIT"
-license-files = ["LICEN[CS]E*"]
+
+[project.scripts]
+psd-to-json = "psd_to_json_package_nlfn.main:main"
 
 [project.urls]
-Homepage = "https://github.com/pypa/sampleproject"
-Issues = "https://github.com/pypa/sampleproject/issues"
+Homepage = "https://github.com/natelaffan/psd-to-json"
+Issues = "https://github.com/natelaffan/psd-to-json/issues"
+Repository = "https://github.com/natelaffan/psd-to-json"
+
+[tool.setuptools.packages.find]
+where = ["src"]

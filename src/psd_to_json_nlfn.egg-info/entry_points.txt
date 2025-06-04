@@ -1,0 +1,2 @@
+[console_scripts]
+psd-to-json = psd_to_json_package_nlfn.main:main

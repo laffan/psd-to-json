@@ -1,8 +1,10 @@
 import json
 import os
+import sys
 import time
-from src.core.psd_processor import PSDProcessor
-from src.core.json_generator import JSONGenerator
+import argparse
+from .src.core.psd_processor import PSDProcessor
+from .src.core.json_generator import JSONGenerator
 import logging
 
 # Configure logging
@@ -20,6 +22,44 @@ def get_file_mtime(filepath):
     except FileNotFoundError:
         return 0
 
+def load_config():
+    config_path = os.path.join(os.getcwd(), 'psd-to-json.config')
+    
+    if not os.path.exists(config_path):
+        error_message = f"""
+Error: No psd-to-json.config file found in the current directory.
+
+Please create a psd-to-json.config file with the following structure:
+{{
+  "output_dir": "path/to/assets/folder",
+  "psd_files": [
+    "path/to/demo.psd"
+  ],
+  "tile_slice_size": 500,
+  "tile_scaled_versions": [100],
+  "generateOnSave": false,
+  "pngQualityRange": {{
+    "low": 85,
+    "high": 90
+  }},
+  "jpgQuality": 80
+}}
+
+All paths should be relative to the current directory.
+        """
+        print(error_message.strip())
+        sys.exit(1)
+    
+    try:
+        with open(config_path, 'r') as config_file:
+            return json.load(config_file)
+    except json.JSONDecodeError as e:
+        print(f"Error: Invalid JSON in psd-to-json.config: {e}")
+        sys.exit(1)
+    except Exception as e:
+        print(f"Error reading config file: {e}")
+        sys.exit(1)
+
 def process_psds(config):
     # Ensure output directory exists
     os.makedirs(config['output_dir'], exist_ok=True)
@@ -33,10 +73,20 @@ def process_psds(config):
     generator = JSONGenerator(config, processed_data)
     generator.generate_json()
 
-def main(config_path='config.json'):
+def main():
+    parser = argparse.ArgumentParser(description='Convert PSD files to JSON with optimized assets')
+    parser.add_argument('--watch', action='store_true', 
+                       help='Enable watching for file changes (overrides generateOnSave setting)')
+    
+    args = parser.parse_args()
+    
     # Load configuration
-    with open(config_path, 'r') as config_file:
-        config = json.load(config_file)
+    config = load_config()
+    
+    # Override generateOnSave if --watch flag is provided
+    if args.watch:
+        config['generateOnSave'] = True
+        print("Watch mode enabled via command line argument")
 
     # Initial processing
     process_psds(config)
