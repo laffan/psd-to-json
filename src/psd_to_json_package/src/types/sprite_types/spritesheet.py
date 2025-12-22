@@ -21,20 +21,36 @@ class SpritesheetSprite(Sprite):
         if not self.unique_frames:
             print(f"Warning: No valid frames found for spritesheet '{self.layer_info['name']}'. Skipping spritesheet creation.")
             return None
-        spritesheet_image = self._create_spritesheet()
-        file_path = self._save_image(spritesheet_image)
+
+        # Calculate columns and rows for metadata
+        frame_count = len(self.frames)
+        self.columns = math.ceil(math.sqrt(frame_count))
+        self.rows = math.ceil(frame_count / self.columns)
 
         sprite_data = {
             **self.layer_info,
-            "filePath": file_path,
             "frame_width": self.max_width,
             "frame_height": self.max_height,
             "frame_count": len(self.frames),
             "columns": self.columns,
             "rows": self.rows,
             "instances": self.instances,
-            "frames": self._generate_frames()
         }
+
+        # Skip image processing in metadata-only mode
+        if self.config.get('metadataOnly', False):
+            # Generate frames without spritesheet positions
+            sprite_data["frames"] = {
+                frame['name']: {
+                    'width': frame['width'],
+                    'height': frame['height']
+                } for frame in self.frames
+            }
+        else:
+            spritesheet_image = self._create_spritesheet()
+            file_path = self._save_image(spritesheet_image)
+            sprite_data["filePath"] = file_path
+            sprite_data["frames"] = self._generate_frames()
 
         return sprite_data
 

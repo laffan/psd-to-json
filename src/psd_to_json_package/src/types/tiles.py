@@ -86,18 +86,22 @@ class Tiles:
         num_tiles_x = (width + self.tile_slice_size - 1) // self.tile_slice_size
         num_tiles_y = (height + self.tile_slice_size - 1) // self.tile_slice_size
 
-        tiles_dir = os.path.join(output_dir, image_name, str(self.tile_slice_size))
-        os.makedirs(tiles_dir, exist_ok=True)
+        # Skip image processing in metadata-only mode
+        if not self.config.get('metadataOnly', False):
+            tiles_dir = os.path.join(output_dir, image_name, str(self.tile_slice_size))
+            os.makedirs(tiles_dir, exist_ok=True)
 
-        print(f"Slicing {image_name} image into {self.tile_slice_size}px tiles...")
+            print(f"Slicing {image_name} image into {self.tile_slice_size}px tiles...")
 
-        self._slice_and_save_tiles(image, tiles_dir, image_name, num_tiles_x, num_tiles_y, not is_jpg)
+            self._slice_and_save_tiles(image, tiles_dir, image_name, num_tiles_x, num_tiles_y, not is_jpg)
 
-        if self.tile_scaled_versions:
-            for size in self.tile_scaled_versions:
-                self._create_scaled_tiles(tiles_dir, output_dir, image_name, num_tiles_x, num_tiles_y, size, not is_jpg)
+            if self.tile_scaled_versions:
+                for size in self.tile_scaled_versions:
+                    self._create_scaled_tiles(tiles_dir, output_dir, image_name, num_tiles_x, num_tiles_y, size, not is_jpg)
 
-        print(f"Finished processing {image_name}")
+            print(f"Finished processing {image_name}")
+        else:
+            print(f"Metadata-only mode: skipping tile image processing for {image_name}")
 
         return {
             "columns": num_tiles_x,

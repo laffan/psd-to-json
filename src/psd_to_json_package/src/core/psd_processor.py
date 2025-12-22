@@ -47,11 +47,16 @@ class PSDProcessor:
 
     def process_layers(self, parent_layer):
         layers = []
+        ignore_layers = self.config.get('ignoreLayers', [])
 
         for layer in reversed(parent_layer):
             parsed_layer = parse_attributes(layer.name)
             if parsed_layer is None:
                 continue  # Skip layers that don't conform to the new naming convention
+
+            # Skip layers whose names are in the ignoreLayers list
+            if parsed_layer['name'] in ignore_layers:
+                continue
 
             # Unpack the bbox tuple
             x1, y1, x2, y2 = layer.bbox

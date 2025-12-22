@@ -8,6 +8,8 @@ To use: `psd-to-json` (requires a [configuration file](#configuration) and for t
 
 You can also run `psd-to-json --watch` to force generateOnSave to be true for that session.
 
+You can run `psd-to-json --metadata-only` to skip all image processing and only generate the JSON metadata file. This is useful when you've only made changes to layer naming, ordering, or nesting and want to quickly regenerate the JSON without reprocessing images.
+
 ## Additional Requirements
 
 **NOTE: [pngquant](https://pngquant.org/) is required for psd-to-json to run but is not part of the pip installation.**
@@ -45,7 +47,8 @@ psd-to-json will ook for a  `psd-to-json.config` file in the directory where it 
     "low": 85,
     "high": 90
   },
-  "jpgQuality": 80
+  "jpgQuality": 80,
+  "ignoreLayers": ["layerToIgnore", "anotherLayerToIgnore"]
 }
 ```
 
@@ -56,6 +59,7 @@ psd-to-json will ook for a  `psd-to-json.config` file in the directory where it 
 - generateOnSave: automatically run on save
 - pngQualityRange: min/max of PNG compression
 - jpgQuality: jpg output quality
+- ignoreLayers: array of layer names to ignore during export (optional)
 
 
 

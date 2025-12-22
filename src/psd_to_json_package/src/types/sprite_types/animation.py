@@ -18,15 +18,16 @@ class AnimationSprite(Sprite):
         if not self.frames:
             raise ValueError(f"No valid frames found in animation group '{self.layer.name}'")
 
-        spritesheet = self._create_spritesheet()
-        file_path = self._save_image(spritesheet)
-
         width = self.max_width - self.min_x
         height = self.max_height - self.min_y
 
+        # Calculate columns and rows for metadata
+        frame_count = len(self.frames)
+        self.columns = math.ceil(math.sqrt(frame_count))
+        self.rows = math.ceil(frame_count / self.columns)
+
         sprite_data = {
             **self.layer_info,
-            "filePath": file_path,
             "frame_width": width,
             "frame_height": height,
             "frame_count": len(self.frames),
@@ -37,6 +38,12 @@ class AnimationSprite(Sprite):
             "width": width,
             "height": height
         }
+
+        # Skip image processing in metadata-only mode
+        if not self.config.get('metadataOnly', False):
+            spritesheet = self._create_spritesheet()
+            file_path = self._save_image(spritesheet)
+            sprite_data["filePath"] = file_path
 
         return sprite_data
 

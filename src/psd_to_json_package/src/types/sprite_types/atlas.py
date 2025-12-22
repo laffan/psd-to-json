@@ -22,9 +22,22 @@ class AtlasSprite(Sprite):
         if not self.unique_frames:
             print(f"Warning: No valid frames found for atlas '{self.layer_info['name']}'. Skipping atlas creation.")
             return None
-        atlas_image, atlas_data = self._create_atlas()
-        self._save_image(atlas_image)
-        self.data.update(atlas_data)
+
+        # Skip image processing in metadata-only mode
+        if self.config.get('metadataOnly', False):
+            # Generate metadata without atlas positions
+            self.data['instances'] = self.instances
+            self.data['frames'] = {
+                frame['name']: {
+                    'width': frame['width'],
+                    'height': frame['height']
+                } for frame in self.frames
+            }
+        else:
+            atlas_image, atlas_data = self._create_atlas()
+            self._save_image(atlas_image)
+            self.data.update(atlas_data)
+
         return self.data
 
     def _collect_frames(self):
