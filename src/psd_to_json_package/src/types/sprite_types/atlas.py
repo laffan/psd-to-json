@@ -23,6 +23,9 @@ class AtlasSprite(Sprite):
             print(f"Warning: No valid frames found for atlas '{self.layer_info['name']}'. Skipping atlas creation.")
             return None
 
+        # Export mask if present
+        self.export_mask(self.data)
+
         # Skip image processing in metadata-only mode
         if self.config.get('metadataOnly', False):
             # Generate metadata without atlas positions

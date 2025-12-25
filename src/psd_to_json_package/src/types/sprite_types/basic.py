@@ -17,6 +17,9 @@ class BasicSprite(Sprite):
             "height": self.layer.height
         }
 
+        # Export mask if present
+        self.export_mask(result)
+
         # Skip image processing in metadata-only mode
         if self.config.get('metadataOnly', False):
             return result
@@ -42,6 +45,9 @@ class BasicSprite(Sprite):
             "width": self.layer.width,
             "height": self.layer.height
         }
+
+        # Export mask if present
+        self.export_mask(result)
 
         # Skip image processing in metadata-only mode
         if self.config.get('metadataOnly', False):

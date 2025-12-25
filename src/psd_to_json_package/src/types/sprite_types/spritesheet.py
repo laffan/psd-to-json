@@ -37,6 +37,9 @@ class SpritesheetSprite(Sprite):
             "instances": self.instances,
         }
 
+        # Export mask if present
+        self.export_mask(sprite_data)
+
         # Skip image processing in metadata-only mode
         if self.config.get('metadataOnly', False):
             # Generate frames without spritesheet positions

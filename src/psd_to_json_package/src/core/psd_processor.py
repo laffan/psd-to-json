@@ -2,6 +2,7 @@ from psd_tools import PSDImage
 from psd_tools.constants import BlendMode
 import os
 from ..helpers.parsers import parse_attributes
+from ..helpers.optimize_pngs import optimize_pngs
 from ..types.point import process_points
 from ..types.zone import process_zones
 from ..types.sprite import Sprite
@@ -27,6 +28,7 @@ class PSDProcessor:
 
     def process_psd(self, psd, psd_file, psd_output_dir):
         self.psd_name = os.path.splitext(os.path.basename(psd_file))[0]
+        self.psd_output_dir = psd_output_dir
         self.tiles_processor = Tiles(self.config, psd_output_dir)
 
         layers = self.process_layers(psd)
@@ -108,6 +110,10 @@ class PSDProcessor:
                 if children:
                     layer_info['children'] = children
 
+            # Export mask for groups (sprites handle their own masks)
+            if layer_info['category'] == 'group':
+                layer_info = self.export_layer_mask(layer, layer_info, self.psd_output_dir)
+
             # Capture alpha and blend mode
             layer_info = self.capture_layer_properties(layer, layer_info)
 
@@ -127,6 +133,34 @@ class PSDProcessor:
             layer_info['blendMode'] = blend_mode.name
             print(blend_mode.name)
             print(layer_info)
+        return layer_info
+
+    def export_layer_mask(self, layer, layer_info, psd_output_dir):
+        """
+        Export the layer mask if it exists. For non-sprite layers like groups.
+        """
+        if layer.mask is None:
+            return layer_info
+
+        layer_info['mask'] = True
+
+        # Skip actual mask export in metadata-only mode
+        if self.config.get('metadataOnly', False):
+            return layer_info
+
+        # Create masks directory
+        masks_dir = os.path.join(psd_output_dir, 'masks')
+        os.makedirs(masks_dir, exist_ok=True)
+
+        mask_image = layer.mask.topil()
+        mask_filename = f"{layer_info['name']}_mask.png"
+        mask_filepath = os.path.join(masks_dir, mask_filename)
+        mask_image.save(mask_filepath, 'PNG')
+
+        # Optimize the mask image
+        optimize_pngs(mask_filepath, self.config.get('pngQualityRange', {}))
+
+        layer_info['maskPath'] = os.path.relpath(mask_filepath, psd_output_dir)
         return layer_info
 
     def reverse_depth(self, layers, max_depth):

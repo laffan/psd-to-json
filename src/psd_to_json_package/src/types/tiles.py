@@ -71,6 +71,37 @@ class Tiles:
         if tile_type:
             result["type"] = tile_type
 
+        # Export mask if present
+        result = self._export_mask(layer, result, name)
+
+        return result
+
+    def _export_mask(self, layer, result, name):
+        """
+        Export the layer mask if it exists.
+        """
+        if layer.mask is None:
+            return result
+
+        result['mask'] = True
+
+        # Skip actual mask export in metadata-only mode
+        if self.config.get('metadataOnly', False):
+            return result
+
+        # Create masks directory
+        masks_dir = os.path.join(self.output_dir, 'masks')
+        os.makedirs(masks_dir, exist_ok=True)
+
+        mask_image = layer.mask.topil()
+        mask_filename = f"{name}_mask.png"
+        mask_filepath = os.path.join(masks_dir, mask_filename)
+        mask_image.save(mask_filepath, 'PNG')
+
+        # Optimize the mask image
+        optimize_pngs(mask_filepath, self.config.get('pngQualityRange', {}))
+
+        result['maskPath'] = os.path.relpath(mask_filepath, self.output_dir)
         return result
 
     def _create_tiles(self, image, output_dir, image_name, is_jpg):

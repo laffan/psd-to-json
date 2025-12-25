@@ -185,6 +185,27 @@ it should output the following JSON :
 ```
 
 
+## Layer Masks
+
+If a layer or group has a layer mask in Photoshop, psd-to-json will automatically export the mask as a separate PNG file. The mask file will be named `[layer_name]_mask.png` and saved in the appropriate directory:
+
+- For sprites: `sprites/[layer_name]_mask.png`
+- For groups and tiles: `masks/[layer_name]_mask.png`
+
+In the JSON output, layers with masks will have two additional properties:
+
+```js
+{
+  "name": "myLayer",
+  "mask": true,
+  "maskPath": "sprites/myLayer_mask.png",
+  // ... other properties
+}
+```
+
+Note: When using `--metadata-only` mode, the `mask: true` attribute will still be set, but no mask image files will be generated.
+
+
 ## Credits
 
 All PSD manipulation thanks to [PSD Tools](https://github.com/psd-tools/psd-tools?tab=readme-ov-file)

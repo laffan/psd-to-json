@@ -39,6 +39,9 @@ class AnimationSprite(Sprite):
             "height": height
         }
 
+        # Export mask if present
+        self.export_mask(sprite_data)
+
         # Skip image processing in metadata-only mode
         if not self.config.get('metadataOnly', False):
             spritesheet = self._create_spritesheet()
