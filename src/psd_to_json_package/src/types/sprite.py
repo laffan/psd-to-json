@@ -43,6 +43,13 @@ class Sprite:
 
         result['mask'] = True
 
+        # Add mask position from the mask's bounding box
+        mask_bbox = self.layer.mask.bbox
+        result['maskX'] = mask_bbox[0]
+        result['maskY'] = mask_bbox[1]
+        result['maskWidth'] = mask_bbox[2] - mask_bbox[0]
+        result['maskHeight'] = mask_bbox[3] - mask_bbox[1]
+
         # Skip actual mask export in metadata-only mode
         if self.config.get('metadataOnly', False):
             return result
