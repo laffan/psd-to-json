@@ -144,6 +144,13 @@ class PSDProcessor:
 
         layer_info['mask'] = True
 
+        # Add mask position from the mask's bounding box
+        mask_bbox = layer.mask.bbox
+        layer_info['maskX'] = mask_bbox[0]
+        layer_info['maskY'] = mask_bbox[1]
+        layer_info['maskWidth'] = mask_bbox[2] - mask_bbox[0]
+        layer_info['maskHeight'] = mask_bbox[3] - mask_bbox[1]
+
         # Skip actual mask export in metadata-only mode
         if self.config.get('metadataOnly', False):
             return layer_info
