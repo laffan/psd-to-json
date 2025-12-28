@@ -27,6 +27,37 @@ class Sprite:
         image.save(filepath, 'PNG')
         return os.path.relpath(filepath, self.output_dir)
 
+    def has_mask(self):
+        """
+        Check if the layer has a mask.
+        """
+        return self.layer.mask is not None
+
+    def export_mask(self, result):
+        """
+        Export the layer mask if it exists. Modifies result dict in place.
+        Returns the result dict.
+        """
+        if not self.has_mask():
+            return result
+
+        result['mask'] = True
+
+        # Skip actual mask export in metadata-only mode
+        if self.config.get('metadataOnly', False):
+            return result
+
+        mask_image = self.layer.mask.topil()
+        mask_filename = f"{self.layer_info['name']}_mask.png"
+        mask_filepath = os.path.join(self.sprite_output_dir, mask_filename)
+        mask_image.save(mask_filepath, 'PNG')
+
+        # Optimize the mask image
+        optimize_pngs(mask_filepath, self.config.get('pngQualityRange', {}))
+
+        result['maskPath'] = os.path.relpath(mask_filepath, self.output_dir)
+        return result
+
     @staticmethod
     def create_sprite(layer_info, layer, config, output_dir, psd_name):
         """

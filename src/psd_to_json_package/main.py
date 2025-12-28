@@ -42,7 +42,8 @@ Please create a psd-to-json.config file with the following structure:
     "low": 85,
     "high": 90
   }},
-  "jpgQuality": 80
+  "jpgQuality": 80,
+  "ignoreLayers": []
 }}
 
 All paths should be relative to the current directory.
@@ -75,18 +76,25 @@ def process_psds(config):
 
 def main():
     parser = argparse.ArgumentParser(description='Convert PSD files to JSON with optimized assets')
-    parser.add_argument('--watch', action='store_true', 
+    parser.add_argument('--watch', action='store_true',
                        help='Enable watching for file changes (overrides generateOnSave setting)')
-    
+    parser.add_argument('--metadata-only', action='store_true',
+                       help='Only generate JSON metadata without processing images')
+
     args = parser.parse_args()
-    
+
     # Load configuration
     config = load_config()
-    
+
     # Override generateOnSave if --watch flag is provided
     if args.watch:
         config['generateOnSave'] = True
         print("Watch mode enabled via command line argument")
+
+    # Set metadata-only mode
+    if args.metadata_only:
+        config['metadataOnly'] = True
+        print("Metadata-only mode enabled - skipping image processing")
 
     # Initial processing
     process_psds(config)
