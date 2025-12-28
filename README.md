@@ -2,6 +2,8 @@
 
 This tool outputs the layers of a psd as optimized assets with manifest.
 
+## Installation
+
 To install: `pip install psd-to-json`
 
 To use: `psd-to-json` (requires a [configuration file](#configuration) and for the PSD to use proper [layer naming](#layer-naming).)
@@ -9,6 +11,20 @@ To use: `psd-to-json` (requires a [configuration file](#configuration) and for t
 You can also run `psd-to-json --watch` to force generateOnSave to be true for that session.
 
 You can run `psd-to-json --metadata-only` to skip all image processing and only generate the JSON metadata file. This is useful when you've only made changes to layer naming, ordering, or nesting and want to quickly regenerate the JSON without reprocessing images.
+
+**NOTE** : Modern versions of macOS won't allow a direct installation, so you may need to run via a virtual environment. To do that : 
+
+```bash
+# creative virtual environment 
+python3 -m venv venv
+source venv/bin/activate
+
+# install to virtual environment
+pip install -e .
+
+# finally, run directly from the virtual environment
+./venv/bin/psd-to-json
+```
 
 ## Additional Requirements
 
@@ -204,6 +220,7 @@ In the JSON output, layers with masks will have two additional properties:
 ```
 
 Note: When using `--metadata-only` mode, the `mask: true` attribute will still be set, but no mask image files will be generated.
+
 
 
 ## Credits
