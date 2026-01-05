@@ -1,6 +1,6 @@
 # PSD to JSON
 
-This tool outputs the layers of a psd as optimized assets with manifest.
+Output the layers of a psd as optimized assets with manifest.
 
 ## Installation
 
