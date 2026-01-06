@@ -1,6 +1,8 @@
 # PSD to JSON
 
-Output the layers of a psd as optimized assets with a manifest.
+Output the layers of a psd as game assets by using a layer naming system. 
+
+Outputs optimized sprites, spritesheets and tiles with a JSON manifest.
 
 ## Installation
 
